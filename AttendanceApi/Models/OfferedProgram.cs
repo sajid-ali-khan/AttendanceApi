@@ -2,7 +2,7 @@ using AttendanceApi.Models.Enums;
 
 namespace AttendanceApi.Models;
 
-public class Program
+public class OfferedProgram
 {
     public int Id { get; set; }
     public Degree Degree { get; set; }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace AttendanceApi.Models;
 
 public class Session
@@ -8,7 +10,11 @@ public class Session
     public int NumPresent { get; set; }
     public int NumAbsent { get; set; }
     public DateOnly UpdatedDate { get; set; }
+    [MaxLength(20)]
     public string TimeStamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");
+    
+    public required Course Course { get; set; }
+    public Faculty? Faculty { get; set; }
     
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new List<AttendanceRecord>();
 }
