@@ -72,9 +72,16 @@ public partial class CollegeDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("ROLLNO");
             entity.Property(e => e.Branch).HasColumnName("BRANCH");
+            entity.Property(e => e.Degr)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("degr");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("NAME");
+            entity.Property(e => e.Scheme)
+                .HasMaxLength(10)
+                .IsUnicode(false);
             entity.Property(e => e.Sec)
                 .HasMaxLength(50)
                 .HasColumnName("SEC");

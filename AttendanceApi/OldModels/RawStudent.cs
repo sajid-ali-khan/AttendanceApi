@@ -14,4 +14,8 @@ public partial class RawStudent
     public string Sec { get; set; } = null!;
 
     public byte Sem { get; set; }
+
+    public string? Scheme { get; set; }
+
+    public string? Degr { get; set; }
 }

@@ -28,7 +28,8 @@ public class StructuredCollegeDbContext: DbContext
             entity.HasKey(ar => new { ar.SessionId, ar.StudentId });
 
             entity.Property(ar => ar.Status)
-                .HasDefaultValue(AttendanceStatus.Absent);
+                .HasDefaultValue(AttendanceStatus.Absent)
+                .HasConversion<int>();
         });
 
         modelBuilder.Entity<Branch>(entity =>
@@ -50,6 +51,9 @@ public class StructuredCollegeDbContext: DbContext
                 .WithOne(session => session.Course)
                 .HasForeignKey(session => session.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasIndex(c => new { c.StudentBatchId, c.SubjectId })
+                .IsUnique();
         });
 
         modelBuilder.Entity<CourseAssignment>(entity =>
@@ -129,6 +133,8 @@ public class StructuredCollegeDbContext: DbContext
                 .WithOne(c => c.Subject)
                 .HasForeignKey(c => c.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
+            entity.Property(sub => sub.SubjectType)
+                .HasConversion<int>();
         });
     }
 
