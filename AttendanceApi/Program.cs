@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ISchemeRepo, SchemeRepo>();
 builder.Services.AddScoped<IOfferedProgramRepo, OfferedProgramRepo>();
+builder.Services.AddScoped<IStudentBatchRepo, StudentBatchRepo>();
 
 builder.Services.AddDbContext<CollegeDbContext>();
 builder.Services.AddDbContext<StructuredCollegeDbContext>(options =>
