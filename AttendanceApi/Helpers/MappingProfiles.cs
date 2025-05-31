@@ -21,6 +21,6 @@ public class MappingProfiles: Profile
                 opt => opt.MapFrom(src => src.Subject.FullName))
             .ForMember(dest => dest.SubjectType,
                 opt => opt.MapFrom(src => src.Subject.SubjectType.ToString()));
-
+        CreateMap<Faculty, FacultyOutputDto>();
     }
 }
