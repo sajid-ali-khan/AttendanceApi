@@ -20,9 +20,9 @@ public class CourseAssignmentController: Controller
     }
 
     [HttpGet("{courseAssignmentId}")]
-    [ProducesResponseType(200, Type = typeof(IEnumerable<CourseAssignment>))]
+    [ProducesResponseType(200, Type = typeof(CourseAssignmentOutputDtoSingle))]
     [ProducesResponseType(404)]
-    public async Task<IActionResult> GetCourseAssignment(int courseAssignmentId)
+    public async Task<IActionResult> GetCourseAssignmentById(int courseAssignmentId)
     {
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -30,8 +30,22 @@ public class CourseAssignmentController: Controller
         var exists = await _caRepo.CourseAssignmentExists(courseAssignmentId);
         if (!exists)
             return NotFound();
-        var courseAssignment = await _caRepo.GetCourseAssignment(courseAssignmentId);
-        return Ok(courseAssignment);
+        var courseAssignmentEntity = await _caRepo.GetCourseAssignmentById(courseAssignmentId);
+        var courseAssignmentDto = _mapper.Map<CourseAssignmentOutputDtoSingle>(courseAssignmentEntity);
+        return Ok(courseAssignmentDto);
+    }
+    
+    [HttpGet]
+    [ProducesResponseType(200, Type = typeof(IEnumerable<CourseAssignmentOutputDtoSingle>))]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> GetCourseAssignments()
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        var courseAssignmentEntities = await _caRepo.GetCourseAssignments();
+        var courseAssignmentDtos = _mapper.Map<ICollection<CourseAssignmentOutputDtoSingle>>(courseAssignmentEntities);
+        return Ok(courseAssignmentDtos);
     }
 
 
@@ -54,10 +68,6 @@ public class CourseAssignmentController: Controller
         if (!saved)
             return StatusCode(500, new { message = "Oops! Something went wrong" });
 
-        return CreatedAtAction(
-            nameof(GetCourseAssignment),
-            new { Id = courseAssignment.Id },
-            newCourseAssignment
-        );
+        return StatusCode(201, new { Id = courseAssignment.Id });
     }
 }

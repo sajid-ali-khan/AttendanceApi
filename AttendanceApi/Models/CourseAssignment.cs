@@ -11,6 +11,6 @@ public class CourseAssignment
     [MaxLength(20)]
     public string? AssignedRole { get; set; }
     
-    public Faculty? Faculty { get; set; }
+    public Faculty Faculty { get; set; }
     public required Course Course { get; set; }
 }

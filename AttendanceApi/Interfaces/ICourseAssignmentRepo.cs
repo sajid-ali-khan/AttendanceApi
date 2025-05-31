@@ -4,7 +4,8 @@ namespace AttendanceApi.Interfaces;
 
 public interface ICourseAssignmentRepo
 {
-    Task<CourseAssignment?> GetCourseAssignment(int courseId);
+    Task<CourseAssignment?> GetCourseAssignmentById(int courseId);
+    Task<ICollection<CourseAssignment>> GetCourseAssignments();
     Task<bool> CreateCourseAssignment(CourseAssignment courseAssignment);
     Task<bool> CourseAssignmentExists(int courseId, int facultyId);
     Task<bool> CourseAssignmentExists(int courseAssignmentId);

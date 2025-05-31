@@ -14,9 +14,28 @@ public class CourseAssignmentRepo: ICourseAssignmentRepo
         _context = context;
     }
 
-    public async Task<CourseAssignment?> GetCourseAssignment(int courseId)
+    public async Task<CourseAssignment?> GetCourseAssignmentById(int courseId)
     {
-        return await _context.CourseAssignments.FirstOrDefaultAsync(c => c.CourseId == courseId);
+        return await _context.CourseAssignments
+            .Include(ca => ca.Course)
+            .ThenInclude(c => c.StudentBatch)
+            .ThenInclude(sb => sb.OfferedProgram)
+            .ThenInclude(op => op.Branch)
+            .Include(ca => ca.Faculty)
+            .Include(ca => ca.Course.Subject)
+            .FirstOrDefaultAsync(c => c.CourseId == courseId);
+    }
+
+    public async Task<ICollection<CourseAssignment>> GetCourseAssignments()
+    {
+        return await _context.CourseAssignments
+            .Include(ca => ca.Course)
+            .ThenInclude(c => c.StudentBatch)
+            .ThenInclude(sb => sb.OfferedProgram)
+            .ThenInclude(op => op.Branch)
+            .Include(ca => ca.Faculty)
+            .Include(ca => ca.Course.Subject)
+            .ToListAsync();
     }
 
     public async Task<bool> CreateCourseAssignment(CourseAssignment courseAssignment)

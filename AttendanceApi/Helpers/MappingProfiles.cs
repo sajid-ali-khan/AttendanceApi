@@ -27,5 +27,14 @@ public class MappingProfiles: Profile
                 opt => opt.MapFrom(src => src.Role.ToString()));
 
         CreateMap<CourseAssignmentCreateDto, CourseAssignment>();
+        CreateMap<CourseAssignment, CourseAssignmentOutputDtoSingle>()
+            .ForMember(dest => dest.BranchShortName,
+                opt => opt.MapFrom(ca => ca.Course.StudentBatch.OfferedProgram.Branch.ShortName))
+            .ForMember(dest => dest.SubjectShortName, opt => opt.MapFrom(ca => ca.Course.Subject.ShortName))
+            .ForMember(dest => dest.SubjectLongName, opt => opt.MapFrom(ca => ca.Course.Subject.FullName))
+            .ForMember(dest => dest.Semester, opt => opt.MapFrom(ca => ca.Course.StudentBatch.Semester))
+            .ForMember(dest => dest.Section, opt => opt.MapFrom(ca => ca.Course.StudentBatch.Section))
+            .ForMember(dest => dest.FacultyName, opt => opt.MapFrom(ca => ca.Faculty.Name))
+            .ForMember(dest => dest.SubjectType, opt => opt.MapFrom(ca => ca.Course.Subject.SubjectType.ToString()));
     }
 }
