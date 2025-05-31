@@ -2,6 +2,8 @@
 
 using AttendanceApi.Data;
 using AttendanceApi.InitialData;
+using AttendanceApi.Interfaces;
+using AttendanceApi.Repositories;
 using AttendanceApi.Seeders;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,14 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ISchemeRepo, SchemeRepo>();
+
 builder.Services.AddDbContext<CollegeDbContext>();
 builder.Services.AddDbContext<StructuredCollegeDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssql"));
 });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -54,7 +62,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.MapControllers();
 
 app.Run();
 

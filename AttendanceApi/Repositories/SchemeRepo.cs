@@ -1,6 +1,7 @@
 using AttendanceApi.Data;
 using AttendanceApi.Interfaces;
 using AttendanceApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceApi.Repositories;
 
@@ -12,17 +13,17 @@ public class SchemeRepo: ISchemeRepo
     {
         _context = context;
     }
-    public ICollection<Scheme> GetSchemes()
+    public async Task<ICollection<Scheme>> GetSchemes()
     {
-        return _context.Schemes.ToList();
+        return await _context.Schemes.ToListAsync();
     }
 
-    public ICollection<OfferedProgram>? GetOfferedPrograms(int schemeId)
+    public async Task<ICollection<OfferedProgram>?> GetOfferedPrograms(int schemeId)
     {
-        var offeredPrograms = _context.Schemes
-            .Where(sch => sch.Id == schemeId)
-            .Select(sch => sch.OfferedPrograms)
-            .FirstOrDefault();
-        return offeredPrograms;
+        var scheme = await _context.Schemes
+            .Include(sch => sch.OfferedPrograms)
+            .ThenInclude(op => op.Branch)
+            .FirstOrDefaultAsync(sch => sch.Id == schemeId);
+        return scheme?.OfferedPrograms;
     }
 }

@@ -5,6 +5,6 @@ namespace AttendanceApi.Interfaces;
 
 public interface ISchemeRepo
 {
-    ICollection<Scheme> GetSchemes();
-    ICollection<OfferedProgram>? GetOfferedPrograms(int schemeId);
+    Task<ICollection<Scheme>> GetSchemes();
+    Task<ICollection<OfferedProgram>?> GetOfferedPrograms(int schemeId);
 }
