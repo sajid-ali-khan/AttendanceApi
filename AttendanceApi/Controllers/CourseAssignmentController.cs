@@ -50,9 +50,10 @@ public class CourseAssignmentController: Controller
 
 
     [HttpPost]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(201, Type = typeof(Object))]
+    [ProducesResponseType(200, Type = typeof(Object))]
     [ProducesResponseType(400)]
-    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> CreateCourseAssignment([FromBody] CourseAssignmentCreateDto newCourseAssignment)
     {
         if(!ModelState.IsValid)
@@ -60,7 +61,7 @@ public class CourseAssignmentController: Controller
         
         var alreadyExists = await _caRepo.CourseAssignmentExists(newCourseAssignment.CourseId, newCourseAssignment.FacultyId);
         if (alreadyExists)
-            return StatusCode(403, new { message= "The resource already exists" });
+            return StatusCode(200, new { message= "The resource already exists" });
         
         var courseAssignment = _mapper.Map<CourseAssignment>(newCourseAssignment);
 
