@@ -11,5 +11,5 @@ public class OfferedProgram
     
     public required Scheme Scheme { get; set; }
     public required Branch Branch { get; set; }
-    public ICollection<StudentBatch> StudentBatches { get; set; } = new List<StudentBatch>();
+    public ICollection<StudentBatch>? StudentBatches { get; set; } = new List<StudentBatch>();
 }

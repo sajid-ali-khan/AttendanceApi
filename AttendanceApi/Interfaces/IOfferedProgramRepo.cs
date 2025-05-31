@@ -4,5 +4,6 @@ namespace AttendanceApi.Interfaces;
 
 public interface IOfferedProgramRepo
 {
-    public Task<ICollection<OfferedProgram>> GetOfferedProgramsForScheme(int schemeId);
+    public Task<ICollection<OfferedProgram>> GetOfferedProgramsForSchemeId(int schemeId);
+    public Task<ICollection<StudentBatch>?> GetStudentBatchesForProgramId(int programId);
 }

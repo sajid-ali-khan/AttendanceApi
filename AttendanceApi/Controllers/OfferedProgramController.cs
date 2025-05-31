@@ -19,12 +19,21 @@ public class OfferedProgramController: Controller
         _mapper = mapper;
     }
 
-    [HttpGet("{schemeId}")]
-    [ProducesResponseType(200, Type = typeof(IEnumerable<OfferedProgram>))]
-    public async Task<IActionResult> GetOfferedProgramsForScheme(int schemeId)
+    // [HttpGet("scheme/{schemeId}")]
+    // [ProducesResponseType(200, Type = typeof(IEnumerable<OfferedProgram>))]
+    // public async Task<IActionResult> GetOfferedProgramsForScheme(int schemeId)
+    // {
+    //     var offeredProgramEntities = await _offeredProgramRepo.GetOfferedProgramsForSchemeId(schemeId);
+    //     var offeredProgramDtos = _mapper.Map<IEnumerable<OfferedProgramsOutputDto>>(offeredProgramEntities);
+    //     return Ok(offeredProgramDtos);
+    // }
+
+    [HttpGet("{programId}/studentBatches")]
+    [ProducesResponseType(200, Type = typeof(IEnumerable<StudentBatch>))]
+    public async Task<IActionResult> GetOfferedProgramsForStudentBatch(int programId)
     {
-        var offeredProgramEntities = await _offeredProgramRepo.GetOfferedProgramsForScheme(schemeId);
-        var offeredProgramDtos = _mapper.Map<IEnumerable<OfferedProgramsOutputDto>>(offeredProgramEntities);
-        return Ok(offeredProgramDtos);
+        var studentBatchEntities = await _offeredProgramRepo.GetStudentBatchesForProgramId(programId);
+        var studentBatchDtos = _mapper.Map<IEnumerable<StudentBatchOutputDto>>(studentBatchEntities);
+        return Ok(studentBatchDtos);
     }
 }

@@ -12,5 +12,6 @@ public class MappingProfiles: Profile
         CreateMap<OfferedProgram, OfferedProgramsOutputDto>()
             .ForMember(dest => dest.ShortName, opt => opt.MapFrom(src => src.Branch.ShortName))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Branch.FullName));
+        CreateMap<StudentBatch, StudentBatchOutputDto>();
     }
 }
