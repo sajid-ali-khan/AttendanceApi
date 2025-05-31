@@ -25,5 +25,7 @@ public class MappingProfiles: Profile
         CreateMap<Faculty, FacultyOutputDtoSingle>()
             .ForMember(dest => dest.Role,
                 opt => opt.MapFrom(src => src.Role.ToString()));
+
+        CreateMap<CourseAssignmentCreateDto, CourseAssignment>();
     }
 }

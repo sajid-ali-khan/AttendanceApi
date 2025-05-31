@@ -20,13 +20,13 @@ builder.Services.AddScoped<ISchemeRepo, SchemeRepo>();
 builder.Services.AddScoped<IOfferedProgramRepo, OfferedProgramRepo>();
 builder.Services.AddScoped<IStudentBatchRepo, StudentBatchRepo>();
 builder.Services.AddScoped<IFacultyRepo, FacultyRepo>();
+builder.Services.AddScoped<ICourseAssignmentRepo, CourseAssignmentRepo>();
 
 builder.Services.AddDbContext<CollegeDbContext>();
 builder.Services.AddDbContext<StructuredCollegeDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssql"));
 });
-
 
 
 var app = builder.Build();

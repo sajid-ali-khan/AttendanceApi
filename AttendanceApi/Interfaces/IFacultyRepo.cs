@@ -4,6 +4,6 @@ namespace AttendanceApi.Interfaces;
 
 public interface IFacultyRepo
 {
-    public Task<ICollection<Faculty>> GetFaculties();
-    public Task<Faculty?> GetFaculty(int facultyId);
+    Task<ICollection<Faculty>> GetFaculties();
+    Task<Faculty?> GetFaculty(int facultyId);
 }
