@@ -4,6 +4,7 @@ using AttendanceApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AttendanceApi.Migrations
 {
     [DbContext(typeof(StructuredCollegeDbContext))]
-    partial class StructuredCollegeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250603120050_AGap")]
+    partial class AGap
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,7 +270,8 @@ namespace AttendanceApi.Migrations
 
                     b.Property<string>("TimeStamp")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateOnly>("UpdatedDate")
                         .HasColumnType("date");
