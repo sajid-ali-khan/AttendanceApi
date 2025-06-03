@@ -32,7 +32,7 @@ public class FacultyController : Controller
     [ProducesResponseType(200, Type = typeof(FacultyOutputDtoSingle))]
     public async Task<IActionResult> GetFaculty(int facultyId)
     {
-        var facultyEntity = await _facultyRepo.GetFaculty(facultyId);
+        var facultyEntity = await _facultyRepo.GetFacultyById(facultyId);
         var facultyDto = _mapper.Map<FacultyOutputDtoSingle>(facultyEntity);
         return Ok(facultyDto);
     }

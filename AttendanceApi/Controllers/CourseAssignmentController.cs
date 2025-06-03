@@ -12,11 +12,20 @@ public class CourseAssignmentController: Controller
 {
     private readonly ICourseAssignmentRepo _caRepo;
     private readonly IMapper _mapper;
+    private readonly ICourseRepo _courseRepo;
+    private readonly IFacultyRepo _facultyRepo;
 
-    public CourseAssignmentController(ICourseAssignmentRepo caRepo, IMapper mapper)
+    public CourseAssignmentController(
+        ICourseAssignmentRepo caRepo,
+        IMapper mapper,
+        ICourseRepo courseRepo,
+        IFacultyRepo facultyRepo
+        )
     {
         _caRepo = caRepo;
         _mapper = mapper;
+        _courseRepo = courseRepo;
+        _facultyRepo = facultyRepo;
     }
 
     [HttpGet("{courseAssignmentId}")]
@@ -58,17 +67,40 @@ public class CourseAssignmentController: Controller
     {
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
+
+        var courseExists = await _courseRepo.CourseExists(newCourseAssignment.CourseId);
+        if (!courseExists)
+            return BadRequest(new
+                { message = $"A course with courseId = {newCourseAssignment.CourseId} doesn't exist." });
+
+        var facultyExists = await _facultyRepo.FacultyExists(newCourseAssignment.FacultyId);
+        if (!facultyExists)
+            return BadRequest(new
+            {
+                message = $"A faculty with facultyId = {newCourseAssignment.FacultyId} doesn't exist."
+            });
         
         var alreadyExists = await _caRepo.CourseAssignmentExists(newCourseAssignment.CourseId, newCourseAssignment.FacultyId);
-        if (alreadyExists)
-            return StatusCode(200, new { message= "The resource already exists" });
         
-        var courseAssignment = _mapper.Map<CourseAssignment>(newCourseAssignment);
+        if (alreadyExists)
+            return Conflict(new { message= "The resource already exists" });
+        
+        var course = await _courseRepo.GetCourseById(newCourseAssignment.CourseId);
+        var faculty = await _facultyRepo.GetFacultyById(newCourseAssignment.FacultyId);
 
+        var courseAssignment = _mapper.Map<CourseAssignment>(newCourseAssignment);
+        courseAssignment.Course = course;
+        courseAssignment.Faculty = faculty;
+        
         var saved = await _caRepo.CreateCourseAssignment(courseAssignment);
         if (!saved)
             return StatusCode(500, new { message = "Oops! Something went wrong" });
 
-        return StatusCode(201, new { Id = courseAssignment.Id });
+        var courseAssignmentDto = _mapper.Map<CourseAssignmentOutputDtoSingle>(courseAssignment);
+        return CreatedAtAction(
+            nameof(GetCourseAssignmentById),
+            new { courseAssignmentId = courseAssignment.Id },
+            courseAssignmentDto
+        );
     }
 }

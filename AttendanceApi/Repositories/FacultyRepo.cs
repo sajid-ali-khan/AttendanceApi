@@ -18,8 +18,13 @@ public class FacultyRepo: IFacultyRepo
         return await _context.Faculties.ToListAsync();
     }
 
-    public async Task<Faculty?> GetFaculty(int facultyId)
+    public async Task<Faculty> GetFacultyById(int facultyId)
     {
-        return await _context.Faculties.FirstOrDefaultAsync(f => f.Id == facultyId);
+        return await _context.Faculties.FirstAsync(f => f.Id == facultyId);
+    }
+
+    public async Task<bool> FacultyExists(int facultyId)
+    {
+        return await _context.Faculties.AnyAsync(f => f.Id == facultyId);
     }
 }
