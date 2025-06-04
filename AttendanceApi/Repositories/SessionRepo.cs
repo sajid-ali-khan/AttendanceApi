@@ -9,7 +9,10 @@ public class SessionRepo(StructuredCollegeDbContext context): ISessionRepo
 {
     public async Task<Session?> GetSessionByIdAsync(int sessionId)
     {
-        return await context.Sessions.FirstOrDefaultAsync(s => s.Id == sessionId);
+        return await context.Sessions
+            .Include(s => s.Course)
+            .Include(s => s.Faculty)
+            .FirstOrDefaultAsync(s => s.Id == sessionId);
     }
 
     public async Task<bool> CreateSessionAsync(Session session)

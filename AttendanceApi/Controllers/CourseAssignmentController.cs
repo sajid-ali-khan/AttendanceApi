@@ -84,23 +84,13 @@ public class CourseAssignmentController: Controller
         
         if (alreadyExists)
             return Conflict(new { message= "The resource already exists" });
-        
-        var course = await _courseRepo.GetCourseById(newCourseAssignment.CourseId);
-        var faculty = await _facultyRepo.GetFacultyById(newCourseAssignment.FacultyId);
 
         var courseAssignment = _mapper.Map<CourseAssignment>(newCourseAssignment);
-        courseAssignment.Course = course;
-        courseAssignment.Faculty = faculty;
         
         var saved = await _caRepo.CreateCourseAssignment(courseAssignment);
         if (!saved)
             return StatusCode(500, new { message = "Oops! Something went wrong" });
 
-        var courseAssignmentDto = _mapper.Map<CourseAssignmentOutputDtoSingle>(courseAssignment);
-        return CreatedAtAction(
-            nameof(GetCourseAssignmentById),
-            new { courseAssignmentId = courseAssignment.Id },
-            courseAssignmentDto
-        );
+        return Created();
     }
 }

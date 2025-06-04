@@ -11,10 +11,11 @@ public class Session
     public int NumAbsent { get; set; }
     public DateOnly UpdatedDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
     
+    [MaxLength(20)]
     public string TimeStamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");
     
-    public required Course Course { get; set; }
-    public required Faculty Faculty { get; set; }
+    public Course? Course { get; set; }
+    public Faculty? Faculty { get; set; }
     
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new List<AttendanceRecord>();
 }

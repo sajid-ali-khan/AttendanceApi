@@ -22,4 +22,12 @@ public class CourseRepo(StructuredCollegeDbContext context) : ICourseRepo
             .Include(c => c.Subject)
             .FirstAsync(c => c.Id == courseId);
     }
+
+    public async Task<int> StudentCount(int courseId)
+    {
+        return await context.Courses.Where(c => c.Id == courseId)
+            .Select(c => c.StudentBatch)
+            .Select(s => s.Students)
+            .CountAsync();
+    }
 }

@@ -22,6 +22,7 @@ builder.Services.AddScoped<IStudentBatchRepo, StudentBatchRepo>();
 builder.Services.AddScoped<IFacultyRepo, FacultyRepo>();
 builder.Services.AddScoped<ICourseAssignmentRepo, CourseAssignmentRepo>();
 builder.Services.AddScoped<ICourseRepo, CourseRepo>();
+builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 
 builder.Services.AddDbContext<CollegeDbContext>();
 builder.Services.AddDbContext<StructuredCollegeDbContext>(options =>

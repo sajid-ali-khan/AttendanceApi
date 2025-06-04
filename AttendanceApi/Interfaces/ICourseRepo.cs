@@ -6,4 +6,6 @@ public interface ICourseRepo
 {
     Task<bool> CourseExists(int courseId);
     Task<Course> GetCourseById(int courseId);
+
+    Task<int> StudentCount(int courseId);
 }

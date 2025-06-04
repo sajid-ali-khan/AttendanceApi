@@ -6,8 +6,8 @@ public class AttendanceRecord
     public int StudentId { get; set; }
     public AttendanceStatus Status { get; set; } = AttendanceStatus.Absent;
     
-    public required Session Session { get; set; }
-    public required Student Student { get; set; }
+    public Session? Session { get; set; }
+    public Student? Student { get; set; }
 }
 
 public enum AttendanceStatus
