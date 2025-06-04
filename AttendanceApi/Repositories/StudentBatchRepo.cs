@@ -21,4 +21,15 @@ public class StudentBatchRepo: IStudentBatchRepo
             .FirstOrDefaultAsync(sb => sb.Id == studentBatchId);
         return studentBatch?.Courses;
     }
+
+    public async Task<ICollection<Course>> GetCourseAssignmentsForStudentBatchId(int studentBatchId)
+    {
+        return await _context.StudentBatches
+            .Where(s => s.Id == studentBatchId)
+            .SelectMany(s => s.Courses)
+            .Include(c => c.CourseAssignments)
+            .ThenInclude(ca => ca.Faculty)
+            .Include(c => c.Subject)
+            .ToListAsync();
+    }
 }
