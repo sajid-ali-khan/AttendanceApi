@@ -12,3 +12,8 @@ Tasks to be done -
    1. For each class and subject
    2. Between given dates
 4. Understand how the server and database need to be setup to be able serve the apis
+
+## 🗂 Database Schema
+View the full schema here:
+[Lucidchart Diagram (embedded)](https://lucid.app/documents/embedded/6bc31132-39ab-4b27-a512-29aa2ba949a0)
+
