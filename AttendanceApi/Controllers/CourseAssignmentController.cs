@@ -84,7 +84,7 @@ public class CourseAssignmentController: Controller
         
         if (alreadyExists)
             return Conflict(new { message= "The resource already exists" });
-
+        
         var courseAssignment = _mapper.Map<CourseAssignment>(newCourseAssignment);
         
         var saved = await _caRepo.CreateCourseAssignment(courseAssignment);

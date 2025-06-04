@@ -54,13 +54,13 @@ public class MappingProfiles: Profile
         CreateMap<CourseAssignment, FacultyInCourseAssignmentDto>()
             .ForMember(dest => dest.Name,
                 opt => opt.MapFrom(src => src.Faculty!.Name))
-            .ForMember(dest => dest.Code,
+            .ForMember(dest => dest.FacultyCode,
                 opt => opt.MapFrom(src => src.Faculty!.Code));
         
         CreateMap<Course, CourseAssignmentForAClassDto>()
             .ForMember(dest => dest.SubjectShortName,
                 opt => opt.MapFrom(src => src.Subject.ShortName))
-            .ForMember(dest => dest.FacultyAssignments,
+            .ForMember(dest => dest.CourseAssignments,
                 opt => opt.MapFrom(src => src.CourseAssignments));
     }
 

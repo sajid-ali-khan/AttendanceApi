@@ -48,7 +48,9 @@ public class SessionController : Controller
         var facultyExists = await _facultyRepo.FacultyExists(newSession.FacultyId);
         if(!facultyExists)
             return BadRequest(new {message = $"A faculty with facultyId = {newSession.FacultyId} doesn't exist."});
-        
+
+        var course = await _courseRepo.GetCourseById(newSession.CourseId);
+        var faculty = await _facultyRepo.GetFacultyById(newSession.FacultyId);
         var studentCount = await _courseRepo.StudentCount(newSession.CourseId);
 
         var session = new Session
@@ -56,7 +58,9 @@ public class SessionController : Controller
             CourseId = newSession.CourseId,
             FacultyId = newSession.FacultyId,
             NumAbsent = studentCount,
-            NumPresent = 0
+            NumPresent = 0,
+            Course = course,
+            Faculty = faculty
         };
         
         bool saved = await _sessionRepo.CreateSessionAsync(session);
