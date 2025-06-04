@@ -2,9 +2,10 @@ using AttendanceApi.Models.Enums;
 
 namespace AttendanceApi.Dtos;
 
-public class CourseAssignmentOutputDtoSingle
+public class CourseAssignmentOutputDto
 {
     public int Id { get; set; }
+    public int CourseId { get; set; }
     public string BranchShortName { get; set; } = "";
     public int Semester { get; set; }
     public string Section { get; set; } = "";

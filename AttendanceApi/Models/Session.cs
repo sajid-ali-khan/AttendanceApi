@@ -9,7 +9,7 @@ public class Session
     public int FacultyId { get; set; }
     public int NumPresent { get; set; }
     public int NumAbsent { get; set; }
-    public DateOnly UpdatedDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateTime UpdatedDate { get; set; } = DateTime.Now;
     
     [MaxLength(20)]
     public string TimeStamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");

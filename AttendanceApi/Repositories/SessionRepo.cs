@@ -11,6 +11,9 @@ public class SessionRepo(StructuredCollegeDbContext context): ISessionRepo
     {
         return await context.Sessions
             .Include(s => s.Course)
+            .ThenInclude(c => c.StudentBatch)
+            .ThenInclude(sb => sb.OfferedProgram)
+            .ThenInclude(op => op.Branch)
             .Include(s => s.Faculty)
             .FirstOrDefaultAsync(s => s.Id == sessionId);
     }

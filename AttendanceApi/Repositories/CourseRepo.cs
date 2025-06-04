@@ -27,7 +27,7 @@ public class CourseRepo(StructuredCollegeDbContext context) : ICourseRepo
     {
         return await context.Courses.Where(c => c.Id == courseId)
             .Select(c => c.StudentBatch)
-            .Select(s => s.Students)
+            .SelectMany(s => s.Students)
             .CountAsync();
     }
 }

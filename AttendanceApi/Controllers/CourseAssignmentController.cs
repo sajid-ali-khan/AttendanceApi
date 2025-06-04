@@ -29,7 +29,7 @@ public class CourseAssignmentController: Controller
     }
 
     [HttpGet("{courseAssignmentId}")]
-    [ProducesResponseType(200, Type = typeof(CourseAssignmentOutputDtoSingle))]
+    [ProducesResponseType(200, Type = typeof(CourseAssignmentOutputDto))]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetCourseAssignmentById(int courseAssignmentId)
     {
@@ -40,12 +40,12 @@ public class CourseAssignmentController: Controller
         if (!exists)
             return NotFound();
         var courseAssignmentEntity = await _caRepo.GetCourseAssignmentById(courseAssignmentId);
-        var courseAssignmentDto = _mapper.Map<CourseAssignmentOutputDtoSingle>(courseAssignmentEntity);
+        var courseAssignmentDto = _mapper.Map<CourseAssignmentOutputDto>(courseAssignmentEntity);
         return Ok(courseAssignmentDto);
     }
     
     [HttpGet]
-    [ProducesResponseType(200, Type = typeof(IEnumerable<CourseAssignmentOutputDtoSingle>))]
+    [ProducesResponseType(200, Type = typeof(IEnumerable<CourseAssignmentOutputDto>))]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetCourseAssignments()
     {
@@ -53,7 +53,7 @@ public class CourseAssignmentController: Controller
             return BadRequest(ModelState);
         
         var courseAssignmentEntities = await _caRepo.GetCourseAssignments();
-        var courseAssignmentDtos = _mapper.Map<ICollection<CourseAssignmentOutputDtoSingle>>(courseAssignmentEntities);
+        var courseAssignmentDtos = _mapper.Map<ICollection<CourseAssignmentOutputDto>>(courseAssignmentEntities);
         return Ok(courseAssignmentDtos);
     }
 

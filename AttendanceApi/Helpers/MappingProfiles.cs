@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Text;
 using AttendanceApi.Dtos;
 using AttendanceApi.Models;
 using AttendanceApi.Models.Enums;
@@ -27,7 +29,7 @@ public class MappingProfiles: Profile
                 opt => opt.MapFrom(src => src.Role.ToString()));
 
         CreateMap<CourseAssignmentCreateDto, CourseAssignment>();
-        CreateMap<CourseAssignment, CourseAssignmentOutputDtoSingle>()
+        CreateMap<CourseAssignment, CourseAssignmentOutputDto>()
             .ForMember(dest => dest.BranchShortName,
                 opt => opt.MapFrom(ca => ca.Course.StudentBatch.OfferedProgram.Branch.ShortName))
             .ForMember(dest => dest.SubjectShortName, opt => opt.MapFrom(ca => ca.Course.Subject.ShortName))
@@ -36,5 +38,36 @@ public class MappingProfiles: Profile
             .ForMember(dest => dest.Section, opt => opt.MapFrom(ca => ca.Course.StudentBatch.Section))
             .ForMember(dest => dest.FacultyName, opt => opt.MapFrom(ca => ca.Faculty.Name))
             .ForMember(dest => dest.SubjectType, opt => opt.MapFrom(ca => ca.Course.Subject.SubjectType.ToString()));
+
+        CreateMap<Session, SessionOutputDto>()
+            .ForMember(dest => dest.CourseName,
+                opt => opt.MapFrom(src => FormClassName(src)))
+            .ForMember(dest => dest.FacultyName,
+                opt => opt.MapFrom(src => src.Faculty!.Name))
+            .ForMember(dest => dest.TotalStudentCount,
+                opt => opt.MapFrom(src => src.NumPresent + src.NumAbsent))
+            .ForMember(dest => dest.PresentStudentCount,
+                opt => opt.MapFrom(src => src.NumPresent))
+            .ForMember(dest => dest.UpdatedAt,
+                opt => opt.MapFrom(src => src.UpdatedDate.ToString("dd/MM/yyyy hh:mm tt")));
+    }
+
+    private static string FormClassName(Session session)
+    {
+        //4th Sem CST - A
+        var sem = session.Course!.StudentBatch.Semester;
+        var opName = session.Course.StudentBatch.OfferedProgram.Branch.ShortName;
+        var section = session.Course.StudentBatch.Section;
+
+        var semStr = sem switch
+        {
+            1 => sem + "st",
+            2 => sem + "nd",
+            3 => sem + "rd",
+            _ => sem + "th"
+        };
+
+        var courseName = $"{semStr} Sem {opName} - {section}";
+        return courseName;
     }
 }

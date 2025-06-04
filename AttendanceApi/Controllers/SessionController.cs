@@ -31,12 +31,14 @@ public class SessionController : Controller
         if (session is null)
             return NotFound();
 
-        return Ok(session);
+        var sessionDto = _mapper.Map<SessionOutputDto>(session);
+        return Ok(sessionDto);
     }
     
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(Object))]
+    [ProducesResponseType(201)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> CreateSessionAsync([FromBody]SessionCreateDto newSession)
     {
         var courseExists = await _courseRepo.CourseExists(newSession.CourseId);
