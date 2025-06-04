@@ -50,6 +50,18 @@ public class MappingProfiles: Profile
                 opt => opt.MapFrom(src => src.NumPresent))
             .ForMember(dest => dest.UpdatedAt,
                 opt => opt.MapFrom(src => src.UpdatedDate.ToString("dd/MM/yyyy hh:mm tt")));
+
+        CreateMap<CourseAssignment, FacultyInCourseAssignmentDto>()
+            .ForMember(dest => dest.Name,
+                opt => opt.MapFrom(src => src.Faculty!.Name))
+            .ForMember(dest => dest.Code,
+                opt => opt.MapFrom(src => src.Faculty!.Code));
+        
+        CreateMap<Course, CourseAssignmentForAClassDto>()
+            .ForMember(dest => dest.SubjectShortName,
+                opt => opt.MapFrom(src => src.Subject.ShortName))
+            .ForMember(dest => dest.FacultyAssignments,
+                opt => opt.MapFrom(src => src.CourseAssignments));
     }
 
     private static string FormClassName(Session session)

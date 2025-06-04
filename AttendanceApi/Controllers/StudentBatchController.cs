@@ -27,4 +27,13 @@ public class StudentBatchController : Controller
         var courseDtos = _mapper.Map<IEnumerable<CourseOutputDto>>(courseEntities);
         return Ok(courseDtos);
     }
+
+    [HttpGet("{studentBatchId}/courseAssignments")]
+    [ProducesResponseType(200, Type = typeof(IEnumerable<CourseAssignmentForAClassDto>))]
+    public async Task<IActionResult> GetCourseAssignmentsForStudentBatchId(int studentBatchId)
+    {
+        var caEntities = await _studentBatchRepo.GetCourseAssignmentsForStudentBatchId(studentBatchId);
+        var courseAssignments = _mapper.Map<IEnumerable<CourseAssignmentForAClassDto>>(caEntities);
+        return Ok(courseAssignments);
+    }
 }
