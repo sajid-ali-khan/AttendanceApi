@@ -68,6 +68,6 @@ public class SessionController : Controller
         if (!saved)
             return StatusCode(500, new { message = "Something went wrong" });
 
-        return Created();
+        return StatusCode(201);
     }
 }
